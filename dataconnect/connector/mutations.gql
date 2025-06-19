@@ -1,0 +1,107 @@
+mutation CreateUser($username: String!, $roleName: Role_Key!, $email: String)
+@auth(level: PUBLIC) {
+  # Eliminamos restricción de autenticación para permitir la creación durante el registro
+  user_insert(data: { username: $username, role: $roleName, email: $email })
+}
+
+mutation deleteUser($id: String!) @auth(level: USER) {
+  user_delete(id: $id)
+}
+
+mutation UpsertUser($username: String!, $role: Role_Key!, $email: String)
+@auth(level: USER) {
+  # Permitimos el upsert sin requerir autenticación previa para que pueda funcionar en el login
+  # La operación upsert en DataConnect debería crear o actualizar el registro
+  # basado en el ID especificado
+  user_upsert(
+    data: {
+      id_expr: "auth.uid"
+      username: $username
+      role: $role
+      email: $email
+    }
+  )
+}
+
+mutation CreateRole($name: String!, $description: String) @auth(level: USER) {
+  role_insert(data: { name: $name, description: $description })
+}
+
+mutation CreateCustomer(
+  $firstName: String!
+  $lastName: String!
+  $email: String
+  $phone: String
+) @auth(level: USER) {
+  customer_insert(
+    data: {
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+    }
+  )
+}
+
+mutation UpsertCustomer(
+  $id: UUID!
+  $firstName: String!
+  $lastName: String!
+  $email: String
+  $phone: String
+) @auth(level: USER) {
+  customer_upsert(
+    data: {
+      id: $id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+    }
+  )
+}
+
+mutation CreateRecipe(
+  $name: String!
+  $ingredients: [String!]
+  $steps: [String!]
+) @auth(level: USER) {
+  recipe_insert(data: { name: $name, ingredients: $ingredients, steps: $steps })
+}
+
+mutation UpsertRecipe(
+  $id: UUID!
+  $name: String!
+  $ingredients: [String!]
+  $steps: [String!]
+) @auth(level: USER) {
+  recipe_upsert(
+    data: { id: $id, name: $name, ingredients: $ingredients, steps: $steps }
+  )
+}
+
+mutation CreateOrder(
+  $customer: Customer_Key!
+  $user: User_Key!
+  $orderDate: Timestamp!
+  $status: String!
+) @auth(level: USER) {
+  order_insert(
+    data: {
+      customer: $customer
+      user: $user
+      orderDate: $orderDate
+      status: $status
+    }
+  )
+}
+
+mutation CreateOrderItem(
+  $order: Order_Key!
+  $recipe: Recipe_Key!
+  $quantity: Int!
+) @auth(level: USER) {
+  orderItem_insert(
+    data: { order: $order, recipe: $recipe, quantity: $quantity }
+  )
+}

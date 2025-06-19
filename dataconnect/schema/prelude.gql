@@ -1,0 +1,9 @@
+# Prelude.gql - Definiciones y directivas adicionales
+
+# Directivas para mejorar la calidad del esquema
+directive @key on OBJECT
+directive @id on FIELD_DEFINITION
+directive @foreignKey(references: String) on FIELD_DEFINITION
+
+# Asegurarnos que no hay ambigüedad en los tipos
+# Esto ayudará a DataConnect a diferenciar mejor entre tipos

@@ -1,0 +1,7 @@
+connectorId: default
+generate:
+  javascriptSdk:
+    outputDir: ..\..\front\restaurant\dataconnect-generated\js\default-connector
+    package: "@firebasegen/default-connector"
+    packageJsonDir: ..\..\front\restaurant
+    angular: true

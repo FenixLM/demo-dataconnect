@@ -1,0 +1,87 @@
+query AllUsers @auth(level: USER) {
+  users {
+    id
+    username
+    role {
+      name
+      description
+    }
+    email
+  }
+}
+
+query AllRoles @auth(level: USER) {
+  roles {
+    id
+    name
+    description
+  }
+}
+
+query AllCustomers @auth(level: USER) {
+  customers {
+    id
+    firstName
+    lastName
+    email
+    phone
+  }
+}
+
+query AllRecipes @auth(level: USER) {
+  recipes {
+    name
+    ingredients
+    steps
+  }
+}
+
+query AllOrders @auth(level: USER) {
+  orders {
+    customer {
+      firstName
+      lastName
+      email
+      phone
+    }
+    user {
+      username
+      role {
+        name
+        description
+      }
+      email
+    }
+    orderDate
+    status
+  }
+}
+
+query AllOrderItems @auth(level: USER) {
+  orderItems {
+    order {
+      customer {
+        firstName
+        lastName
+        email
+        phone
+      }
+      user {
+        username
+        role {
+          name
+          description
+        }
+        email
+      }
+      orderDate
+      status
+    }
+    recipe {
+      name
+      ingredients
+      steps
+    }
+    quantity
+  }
+}

@@ -1,0 +1,37 @@
+type User @table {
+  id: String! @col
+  username: String!
+  role: Role!
+  email: String
+}
+
+type Role @table {
+  name: String!
+  description: String
+}
+
+type Customer @table {
+  firstName: String!
+  lastName: String!
+  email: String
+  phone: String
+}
+
+type Recipe @table {
+  name: String!
+  ingredients: [String]
+  steps: [String]
+}
+
+type Order @table {
+  customer: Customer!
+  user: User!
+  orderDate: Timestamp!
+  status: String!
+}
+
+type OrderItem @table {
+  order: Order!
+  recipe: Recipe!
+  quantity: Int!
+}
